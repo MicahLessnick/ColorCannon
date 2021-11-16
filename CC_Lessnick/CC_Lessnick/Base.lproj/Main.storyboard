@@ -20,7 +20,7 @@
                                 <rect key="frame" x="-1" y="0.0" width="415" height="896"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qfa-gD-fig" userLabel="Red">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qfa-gD-fig" userLabel="top">
                                 <rect key="frame" x="76" y="666" width="60" height="72"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
@@ -31,7 +31,7 @@
                                     <action selector="paintCanClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ebp-al-8Vg"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q2e-TI-y2B" userLabel="Blue">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q2e-TI-y2B" userLabel="mid">
                                 <rect key="frame" x="8" y="732" width="60" height="72"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
@@ -42,7 +42,7 @@
                                     <action selector="paintCanClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="o3m-Xp-tqO"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="w9F-2e-yse" userLabel="Yellow">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="w9F-2e-yse" userLabel="bottom">
                                 <rect key="frame" x="76" y="806" width="60" height="72"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
@@ -108,7 +108,11 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <connections>
+                        <outlet property="bot" destination="w9F-2e-yse" id="a4W-Ka-kwE"/>
                         <outlet property="cannonBallImage" destination="p1e-Fu-SbL" id="5MC-ws-l0j"/>
+                        <outlet property="colorDisplay" destination="uQe-xu-zjT" id="M40-L5-ySy"/>
+                        <outlet property="mid" destination="Q2e-TI-y2B" id="Wqd-jt-vxB"/>
+                        <outlet property="top" destination="qfa-gD-fig" id="f9T-is-njh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
