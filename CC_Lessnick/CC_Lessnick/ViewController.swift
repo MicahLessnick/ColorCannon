@@ -10,6 +10,7 @@ import UIKit
 class ViewController: UIViewController {
 
     @IBOutlet weak var cannonBallImage: UIImageView!
+    @IBOutlet weak var scoreLabel: UILabel!
     
     var firstColorPicked: Bool = false
     var hardMode: Bool = false
@@ -31,6 +32,7 @@ class ViewController: UIViewController {
     var userColor = ""
     //target and user input
     
+    var userScore = 0
     
     let inputsToOutput = ["RedRed":"Red",
                           "RedBlue":"Purple",
@@ -57,21 +59,10 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var colorDisplay: UILabel!
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        
-        if hardMode{
-            //switch available color array based on mode selection
-            //allows fewer if statements in switch
-            colorArray = hardColors
-            targetArray = hardTargets
-        }
-        else{
-            colorArray = normalColors
-            targetArray = normalTargets
-        }
+        isHardMode(hardMode)
         
         targetColor = targetArray.randomElement()!
         colorDisplay.text = targetColor
@@ -109,5 +100,42 @@ class ViewController: UIViewController {
         }
     }
     
+    func isHardMode(_ hardSelected: Bool) {
+        //called during initialization (and after returning from settings, if hard mode was toggled)
+        if hardSelected{
+            //switch available color array based on mode selection
+            //allows fewer if statements in switch
+            colorArray = hardColors
+            targetArray = hardTargets
+        }
+        else{
+            colorArray = normalColors
+            targetArray = normalTargets
+        }
+    }
+    
+    @IBAction func fireCannon(_ sender: UIButton) {
+        //fires the cannon when userColor has been populated
+        //sets user inputs back to empty strings and decides what to do on success/fail
+        if userColor == targetColor{
+            //print statements here are temporary, will be changed to actual animation at a later time
+            print("match")
+            userScore += 1
+        }
+        else{
+            print("fail")
+        }
+        scoreLabel.text = "Score: \(userScore)"
+        resetVars()
+        targetColor = targetArray.randomElement()!
+        colorDisplay.text = targetColor
+    }
+    
+    func resetVars(){
+        //function to clear contents of user's inputs
+        firstColor = ""
+        secondColor = ""
+        userColor = ""
+    }
 }
 
