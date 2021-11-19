@@ -114,6 +114,7 @@
                         <outlet property="bot" destination="w9F-2e-yse" id="a4W-Ka-kwE"/>
                         <outlet property="cannonBallImage" destination="p1e-Fu-SbL" id="5MC-ws-l0j"/>
                         <outlet property="colorDisplay" destination="uQe-xu-zjT" id="M40-L5-ySy"/>
+                        <outlet property="fireButton" destination="v7z-Gj-NsQ" id="6LY-yZ-IDb"/>
                         <outlet property="mid" destination="Q2e-TI-y2B" id="Wqd-jt-vxB"/>
                         <outlet property="scoreLabel" destination="eO0-Fu-xWZ" id="jND-gy-4W3"/>
                         <outlet property="top" destination="qfa-gD-fig" id="f9T-is-njh"/>

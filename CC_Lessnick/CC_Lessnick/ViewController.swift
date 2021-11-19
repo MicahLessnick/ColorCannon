@@ -11,6 +11,7 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var cannonBallImage: UIImageView!
     @IBOutlet weak var scoreLabel: UILabel!
+    @IBOutlet weak var fireButton: UIButton!
     
     var firstColorPicked: Bool = false
     var hardMode: Bool = false
@@ -63,9 +64,9 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         isHardMode(hardMode)
+        resetVars()
+        //resetVars sets all varables to their default, disables fire button, and generates a new target
         
-        targetColor = targetArray.randomElement()!
-        colorDisplay.text = targetColor
     }
 
     @IBAction func paintCanClicked(_ sender: UIButton) {
@@ -94,9 +95,13 @@ class ViewController: UIViewController {
             default:
                 secondColor = colorArray[2]
             }
-            userColor = inputsToOutput[firstColor+secondColor]!
+            if firstColor != "" && secondColor != ""
+            {
+                //ensures inputsToOutputs will work
+                userColor = inputsToOutput[firstColor+secondColor]!
+                fireButton.isEnabled = true
+            }
             firstColorPicked.toggle()
-            
         }
     }
     
@@ -127,15 +132,16 @@ class ViewController: UIViewController {
         }
         scoreLabel.text = "Score: \(userScore)"
         resetVars()
-        targetColor = targetArray.randomElement()!
-        colorDisplay.text = targetColor
     }
     
     func resetVars(){
-        //function to clear contents of user's inputs
+        //function to set all varables to their default, disable fire button, and generate a new target
         firstColor = ""
         secondColor = ""
         userColor = ""
+        targetColor = targetArray.randomElement()!
+        colorDisplay.text = targetColor
+        fireButton.isEnabled = false
     }
 }
 
