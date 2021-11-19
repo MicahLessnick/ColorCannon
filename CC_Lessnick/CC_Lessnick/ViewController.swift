@@ -134,6 +134,17 @@ class ViewController: UIViewController {
         resetVars()
     }
     
+    
+    @IBAction func clearContents(_ sender: UIButton) {
+        //clears user selection, keeps current target
+        firstColor = ""
+        secondColor = ""
+        userColor = ""
+        fireButton.isEnabled = false
+        firstColorPicked = false
+        //no color has been chosen, so cannon and color picked flag should both be false
+    }
+    
     func resetVars(){
         //function to set all varables to their default, disable fire button, and generate a new target
         firstColor = ""
