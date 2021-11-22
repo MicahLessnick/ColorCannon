@@ -20,9 +20,9 @@
                                 <rect key="frame" x="127" y="204" width="160" height="160"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="cannon" translatesAutoresizingMaskIntoConstraints="NO" id="ruK-4a-Nx3">
-                                <rect key="frame" x="117" y="674" width="180" height="300"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="cannonball" translatesAutoresizingMaskIntoConstraints="NO" id="DZT-fX-RU9">
+                                <rect key="frame" x="175" y="674" width="65" height="65"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wUX-Qm-0eK" userLabel="fireButton">
                                 <rect key="frame" x="319" y="806" width="75" height="37"/>
@@ -33,17 +33,28 @@
                                     <action selector="fireButton_pressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dmn-ZF-dJt"/>
                                 </connections>
                             </button>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="cannonball" translatesAutoresizingMaskIntoConstraints="NO" id="DZT-fX-RU9">
-                                <rect key="frame" x="175" y="674" width="65" height="65"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="cannon" translatesAutoresizingMaskIntoConstraints="NO" id="ruK-4a-Nx3">
+                                <rect key="frame" x="117" y="674" width="180" height="300"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vQs-DR-e0n" userLabel="comboCheck">
+                                <rect key="frame" x="307" y="709" width="98" height="56"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="gray" title="Correct Combo"/>
+                                <connections>
+                                    <action selector="comboCheck_pressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="fSS-6s-w0d"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <connections>
                         <outlet property="cannonball" destination="DZT-fX-RU9" id="yPc-2e-6ID"/>
+                        <outlet property="comboCheckButton" destination="vQs-DR-e0n" id="OHp-cL-iBF"/>
                         <outlet property="ship" destination="jTK-Ei-oHI" id="gy0-HW-uLl"/>
+                        <outlet property="view" destination="8bC-Xf-vdC" id="2nQ-S0-3Gf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
