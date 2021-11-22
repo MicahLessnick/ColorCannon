@@ -60,9 +60,12 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var colorDisplay: UILabel!
     
-    @IBOutlet weak var topSelect: UIImageView!
-    @IBOutlet weak var midSelect: UIImageView!
-    @IBOutlet weak var botSelect: UIImageView!
+    @IBOutlet weak var topSelect1: UIImageView!
+    @IBOutlet weak var midSelect1: UIImageView!
+    @IBOutlet weak var botSelect1: UIImageView!
+    @IBOutlet weak var topSelect2: UIImageView!
+    @IBOutlet weak var midSelect2: UIImageView!
+    @IBOutlet weak var botSelect2: UIImageView!
     
     
     override func viewDidLoad() {
@@ -82,14 +85,14 @@ class ViewController: UIViewController {
             switch sender {
             case top:
                 firstColor = colorArray[0]
-                topSelect.isHidden = false
+                topSelect1.isHidden = false
                 //add code to highlight selection (?)
             case mid:
                 firstColor = colorArray[1]
-                midSelect.isHidden = false
+                midSelect1.isHidden = false
             default:
                 firstColor = colorArray[2]
-                botSelect.isHidden = false
+                botSelect1.isHidden = false
             }
             firstColorPicked.toggle()
         }
@@ -99,13 +102,19 @@ class ViewController: UIViewController {
             switch sender {
             case top:
                 secondColor = colorArray[0]
-                topSelect.isHidden = false
+                if !compareColors(sender){
+                    topSelect1.isHidden = false
+                }
             case mid:
                 secondColor = colorArray[1]
-                midSelect.isHidden = false
+                if !compareColors(sender){
+                    midSelect1.isHidden = false
+                }
             default:
                 secondColor = colorArray[2]
-                botSelect.isHidden = false
+                if !compareColors(sender){
+                    botSelect1.isHidden = false
+                }
             }
             
             togglePaintButtons()
@@ -186,8 +195,31 @@ class ViewController: UIViewController {
     }
     
     func turnOffSelections() {
-        topSelect.isHidden = true
-        midSelect.isHidden = true
-        botSelect.isHidden = true
+        topSelect1.isHidden = true
+        midSelect1.isHidden = true
+        botSelect1.isHidden = true
+        topSelect2.isHidden = true
+        midSelect2.isHidden = true
+        botSelect2.isHidden = true
+    }
+    
+    func compareColors(_ sender: UIButton) -> Bool{
+        //toggles double-selection of the same paint can if the user has selected the same option
+        //returns true if the user has selected the same color, false otherwise
+        if firstColor == secondColor {
+            switch sender {
+            case top:
+                topSelect2.isHidden = false
+            case mid:
+                midSelect2.isHidden = false
+            default:
+                botSelect2.isHidden = false
+            }
+            return true
+        }
+        else{
+            return false
+        }
+        
     }
 }

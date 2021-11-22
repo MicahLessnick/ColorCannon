@@ -20,16 +20,28 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="highlight" translatesAutoresizingMaskIntoConstraints="NO" id="LxD-s3-zdv" userLabel="topSelect">
-                                <rect key="frame" x="59" y="660" width="95" height="84"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="highlight" translatesAutoresizingMaskIntoConstraints="NO" id="JNH-uh-u8Z" userLabel="botSelect2">
+                                <rect key="frame" x="59" y="800" width="95" height="84"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="highlight" translatesAutoresizingMaskIntoConstraints="NO" id="t8p-iI-u3u" userLabel="midSelect">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="highlight" translatesAutoresizingMaskIntoConstraints="NO" id="t7N-YS-YwX" userLabel="botSelect1">
+                                <rect key="frame" x="63" y="802" width="86" height="80"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="highlight" translatesAutoresizingMaskIntoConstraints="NO" id="t8p-iI-u3u" userLabel="midSelect2">
                                 <rect key="frame" x="-9" y="726" width="95" height="84"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="highlight" translatesAutoresizingMaskIntoConstraints="NO" id="JNH-uh-u8Z" userLabel="botSelect">
-                                <rect key="frame" x="59" y="800" width="95" height="84"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="highlight" translatesAutoresizingMaskIntoConstraints="NO" id="GSa-HB-qUI" userLabel="midSelect1">
+                                <rect key="frame" x="-5" y="728" width="86" height="80"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="highlight" translatesAutoresizingMaskIntoConstraints="NO" id="LxD-s3-zdv" userLabel="topSelect2">
+                                <rect key="frame" x="59" y="660" width="95" height="84"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="highlight" translatesAutoresizingMaskIntoConstraints="NO" id="uRE-TD-3X3" userLabel="topSelect1">
+                                <rect key="frame" x="63" y="662" width="86" height="80"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xBC-2E-B7D" userLabel="FireButton">
@@ -135,15 +147,18 @@
                     </view>
                     <connections>
                         <outlet property="bot" destination="ttp-wq-GcC" id="3O8-FH-9eh"/>
-                        <outlet property="botSelect" destination="JNH-uh-u8Z" id="c2d-s3-p0Z"/>
+                        <outlet property="botSelect1" destination="t7N-YS-YwX" id="iWb-jQ-qWY"/>
+                        <outlet property="botSelect2" destination="JNH-uh-u8Z" id="X0b-6s-fZY"/>
                         <outlet property="cannonBallImage" destination="ec5-0l-aaH" id="io2-Bt-Mt1"/>
                         <outlet property="colorDisplay" destination="F5m-tp-1XN" id="HVK-vZ-g8J"/>
                         <outlet property="fireButton" destination="xBC-2E-B7D" id="Zbl-2Q-rD8"/>
                         <outlet property="mid" destination="qTN-mY-iv8" id="qhO-aT-rTX"/>
-                        <outlet property="midSelect" destination="t8p-iI-u3u" id="O7Z-Zc-id3"/>
+                        <outlet property="midSelect1" destination="GSa-HB-qUI" id="64R-1s-Cq0"/>
+                        <outlet property="midSelect2" destination="t8p-iI-u3u" id="spV-Zi-b12"/>
                         <outlet property="scoreLabel" destination="upy-e0-0aJ" id="YvZ-ae-U8e"/>
                         <outlet property="top" destination="Dty-Gh-4NR" id="TeK-4a-4aj"/>
-                        <outlet property="topSelect" destination="LxD-s3-zdv" id="2t1-PD-kel"/>
+                        <outlet property="topSelect1" destination="uRE-TD-3X3" id="S1M-RL-HdT"/>
+                        <outlet property="topSelect2" destination="LxD-s3-zdv" id="3AV-Xo-rUW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ght-HY-CRM" sceneMemberID="firstResponder"/>
