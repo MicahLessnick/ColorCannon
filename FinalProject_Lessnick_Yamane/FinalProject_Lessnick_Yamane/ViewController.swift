@@ -60,11 +60,17 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var colorDisplay: UILabel!
     
+    @IBOutlet weak var topSelect: UIImageView!
+    @IBOutlet weak var midSelect: UIImageView!
+    @IBOutlet weak var botSelect: UIImageView!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         isHardMode(hardMode)
         resetVars()
+        turnOffSelections()
         //resetVars sets all varables to their default, disables fire button, and generates a new target
         
     }
@@ -76,11 +82,14 @@ class ViewController: UIViewController {
             switch sender {
             case top:
                 firstColor = colorArray[0]
+                topSelect.isHidden = false
                 //add code to highlight selection (?)
             case mid:
                 firstColor = colorArray[1]
+                midSelect.isHidden = false
             default:
                 firstColor = colorArray[2]
+                botSelect.isHidden = false
             }
             firstColorPicked.toggle()
         }
@@ -90,10 +99,13 @@ class ViewController: UIViewController {
             switch sender {
             case top:
                 secondColor = colorArray[0]
+                topSelect.isHidden = false
             case mid:
                 secondColor = colorArray[1]
+                midSelect.isHidden = false
             default:
                 secondColor = colorArray[2]
+                botSelect.isHidden = false
             }
             
             togglePaintButtons()
@@ -158,6 +170,8 @@ class ViewController: UIViewController {
         top.isEnabled = true
         mid.isEnabled = true
         bot.isEnabled = true
+        
+        turnOffSelections()
     }
     
     func resetVars(){
@@ -168,5 +182,12 @@ class ViewController: UIViewController {
         targetColor = targetArray.randomElement()!
         colorDisplay.text = targetColor
         fireButton.isEnabled = false
+        turnOffSelections()
+    }
+    
+    func turnOffSelections() {
+        topSelect.isHidden = true
+        midSelect.isHidden = true
+        botSelect.isHidden = true
     }
 }
