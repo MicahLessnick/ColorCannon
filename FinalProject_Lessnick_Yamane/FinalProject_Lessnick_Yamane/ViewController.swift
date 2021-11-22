@@ -95,6 +95,9 @@ class ViewController: UIViewController {
             default:
                 secondColor = colorArray[2]
             }
+            
+            togglePaintButtons()
+            
             if firstColor != "" && secondColor != ""
             {
                 //ensures inputsToOutputs will work
@@ -119,6 +122,13 @@ class ViewController: UIViewController {
         }
     }
     
+    func togglePaintButtons() {
+        //toggles whether all paint cans are enabled or disabled
+        top.isEnabled.toggle()
+        mid.isEnabled.toggle()
+        bot.isEnabled.toggle()
+    }
+    
     @IBAction func fireCannon(_ sender: UIButton) {
         //fires the cannon when userColor has been populated
         //sets user inputs back to empty strings and decides what to do on success/fail
@@ -132,6 +142,7 @@ class ViewController: UIViewController {
         }
         scoreLabel.text = "Score: \(userScore)"
         resetVars()
+        togglePaintButtons()
     }
     
     
@@ -143,6 +154,10 @@ class ViewController: UIViewController {
         fireButton.isEnabled = false
         firstColorPicked = false
         //no color has been chosen, so cannon and color picked flag should both be false
+        
+        top.isEnabled = true
+        mid.isEnabled = true
+        bot.isEnabled = true
     }
     
     func resetVars(){
