@@ -43,7 +43,7 @@ class ViewController: UIViewController {
             let oldCenter = self.cannonball.center
             let newCenter = CGPoint(x: shipCenter.x, y: shipCenter.y + 50.0)
             let oldSize = 65.0
-            let newSize = 15.0
+            let newSize = 10.0
             
             self.hitShip(self.answerCorrect, shipCenter, oldCenter, newCenter, oldSize, newSize)
             
@@ -126,14 +126,14 @@ class ViewController: UIViewController {
         }) { (success: Bool) in
             
             // go off to the side
-            UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut, animations: {
+            UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseOut, animations: {
                 self.cannonball.frame = CGRect(x: newCenter.x + 5.0,
                                                y: newCenter.y+30.0,
                                                width: newSize+growth, height: newSize+growth)
             }) { (success: Bool) in
                 
                 // land in water
-                UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut, animations: {
+                UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseOut, animations: {
                     self.cannonball.frame = CGRect(x: newCenter.x + 5.0,
                                                    y: newCenter.y+30.0,
                                                    width: newSize+growth, height: newSize+growth)
