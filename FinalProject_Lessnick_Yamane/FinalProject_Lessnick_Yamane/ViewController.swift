@@ -78,6 +78,12 @@ class ViewController: UIViewController {
         
     }
 
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let settingVC: SettingsViewController = segue.destination as! SettingsViewController
+        
+        settingVC.isHardMode = hardMode
+    }
+    
     @IBAction func paintCanClicked(_ sender: UIButton) {
         if !firstColorPicked{
             //first color has not been picked yet, the user has just selected it
@@ -93,7 +99,7 @@ class ViewController: UIViewController {
                 firstColor = colorArray[2]
                 botSelect1.isHidden = false
             }
-            
+            setCannonBall()
             firstColorPicked.toggle()
         }
         else{
@@ -125,6 +131,7 @@ class ViewController: UIViewController {
                 userColor = inputsToOutput[firstColor+secondColor]!
                 fireButton.isEnabled = true
             }
+            setCannonBall()
             firstColorPicked.toggle()
         }
     }
@@ -141,6 +148,9 @@ class ViewController: UIViewController {
             colorArray = normalColors
             targetArray = normalTargets
         }
+        top.setBackgroundImage(UIImage(named: "Paint-\(colorArray[0])"), for: .normal)
+        mid.setBackgroundImage(UIImage(named: "Paint-\(colorArray[1])"), for: .normal)
+        bot.setBackgroundImage(UIImage(named: "Paint-\(colorArray[2])"), for: .normal)
     }
     
     func togglePaintButtons() {
@@ -225,10 +235,10 @@ class ViewController: UIViewController {
     func setCannonBall(){
         //set the color of the cannonball (half-full if it's the first selection, totally full if it's the second)
         if !firstColorPicked{
-            cannonBallImage.image = UIImage(named: "cannonball-half-\(firstColor)")
+            cannonBallImage.image = UIImage(named: "Cannonball-Half-\(firstColor)")
         }
         else{
-            cannonBallImage.image = UIImage(named: "cannonball-\(secondColor)")
+            cannonBallImage.image = UIImage(named: "Cannonball-Full-\(userColor)")
         }
     }
 }
