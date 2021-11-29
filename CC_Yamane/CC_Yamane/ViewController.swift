@@ -26,6 +26,7 @@ class ViewController: UIViewController {
     @IBAction func fireButton_pressed(_ sender: UIButton) {
         self.fireCannonball()
     }
+    
     @IBAction func comboCheck_pressed(_ sender: UIButton) {
         if comboCheckButton.titleLabel!.text == "Correct Combo" {
             comboCheckButton.setTitle("Wrong Combo", for: .normal)
