@@ -86,7 +86,6 @@ class ViewController: UIViewController {
             case top:
                 firstColor = colorArray[0]
                 topSelect1.isHidden = false
-                //add code to highlight selection (?)
             case mid:
                 firstColor = colorArray[1]
                 midSelect1.isHidden = false
@@ -94,6 +93,7 @@ class ViewController: UIViewController {
                 firstColor = colorArray[2]
                 botSelect1.isHidden = false
             }
+            
             firstColorPicked.toggle()
         }
         else{
@@ -221,5 +221,14 @@ class ViewController: UIViewController {
             return false
         }
         
+    }
+    func setCannonBall(){
+        //set the color of the cannonball (half-full if it's the first selection, totally full if it's the second)
+        if !firstColorPicked{
+            cannonBallImage.image = UIImage(named: "cannonball-half-\(firstColor)")
+        }
+        else{
+            cannonBallImage.image = UIImage(named: "cannonball-\(secondColor)")
+        }
     }
 }
