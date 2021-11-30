@@ -12,10 +12,12 @@ class SettingsViewController: UIViewController {
     var isHardMode:Bool = false
     
     @IBOutlet weak var modeLabel: UILabel!
+    @IBOutlet weak var hardSwitch: UISwitch!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        initialMode()
         // Do any additional setup after loading the view.
     }
     
@@ -33,5 +35,17 @@ class SettingsViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let mainVC:ViewController = segue.destination as! ViewController
         mainVC.hardMode = isHardMode
+    }
+    
+    func initialMode(){
+        //set the switch's initial appearance based on isHardMode
+        if isHardMode{
+            hardSwitch.isOn = true
+            modeLabel.text = "Hard Mode"
+        }
+        else{
+            hardSwitch.isOn = false
+            modeLabel.text = "Normal Mode"
+        }
     }
 }

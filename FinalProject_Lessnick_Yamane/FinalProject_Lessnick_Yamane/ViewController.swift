@@ -84,6 +84,14 @@ class ViewController: UIViewController {
         settingVC.isHardMode = hardMode
     }
     
+    /*override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        //may need to use this function to change paint colors
+     
+        isHardMode(hardMode)
+        turnOffSelections()
+    }*/
+    
     @IBAction func paintCanClicked(_ sender: UIButton) {
         if !firstColorPicked{
             //first color has not been picked yet, the user has just selected it
