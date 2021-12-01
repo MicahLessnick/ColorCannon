@@ -51,7 +51,7 @@
                                     <navigationItem id="GE8-Qr-4Ke">
                                         <barButtonItem key="rightBarButtonItem" image="gear" catalog="system" id="psL-de-O99">
                                             <connections>
-                                                <segue destination="dNA-7f-nQS" kind="modal" identifier="segueToSettings" modalPresentationStyle="fullScreen" id="UK5-J4-g7u"/>
+                                                <segue destination="dNA-7f-nQS" kind="presentation" identifier="segueToSettings" modalPresentationStyle="fullScreen" id="UK5-J4-g7u"/>
                                             </connections>
                                         </barButtonItem>
                                     </navigationItem>
@@ -202,7 +202,7 @@
                                     <navigationItem title="Settings" id="CJa-Me-CTj">
                                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="Roo-Um-xOX">
                                             <connections>
-                                                <segue destination="bxQ-lk-LqZ" kind="modal" identifier="segueToMain" modalPresentationStyle="fullScreen" id="qjG-iw-xZw"/>
+                                                <segue destination="bxQ-lk-LqZ" kind="presentation" identifier="segueToMain" modalPresentationStyle="fullScreen" id="qjG-iw-xZw"/>
                                             </connections>
                                         </barButtonItem>
                                     </navigationItem>
