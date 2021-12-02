@@ -34,6 +34,11 @@ class ViewController: UIViewController {
     //target and user input
     
     var userScore = 0
+    //user's streak
+    
+    var normalHS: Int = 0
+    var hardHS: Int = 0
+    //highscores
     
     let inputsToOutput = ["RedRed":"Red",
                           "RedBlue":"Purple",
@@ -75,6 +80,9 @@ class ViewController: UIViewController {
         resetVars()
         turnOffSelections()
         //resetVars sets all varables to their default, disables fire button, and generates a new target
+        
+        normalHS = UserDefaults.standard.integer(forKey: "normHS")
+        hardHS = UserDefaults.standard.integer(forKey: "hardHS")
         
     }
 
@@ -172,14 +180,26 @@ class ViewController: UIViewController {
         //fires the cannon when userColor has been populated
         //sets user inputs back to empty strings and decides what to do on success/fail
         if userColor == targetColor{
-            //print statements here are temporary, will be changed to actual animation at a later time
-            print("match")
+
             userScore += 1
+            if !hardMode{
+                if userScore > normalHS{
+                    //if normal mode streak is better than current high score, override previous high score
+                    UserDefaults.standard.set(userScore, forKey: "normHS")
+                }
+            }
+            else{
+                if userScore > hardHS{
+                    //if hard mode streak is better than current high score, override previous high score
+                    UserDefaults.standard.set(userScore, forKey: "hardHS")
+                }
+            }
         }
         else{
-            print("fail")
+
+            userScore = 0
         }
-        scoreLabel.text = "Score: \(userScore)"
+        scoreLabel.text = "Streak: \(userScore)"
         resetVars()
         togglePaintButtons()
     }

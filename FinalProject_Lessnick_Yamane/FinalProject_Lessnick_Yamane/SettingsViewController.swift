@@ -13,11 +13,20 @@ class SettingsViewController: UIViewController {
     
     @IBOutlet weak var modeLabel: UILabel!
     @IBOutlet weak var hardSwitch: UISwitch!
+    @IBOutlet weak var normHSDisplay: UILabel!
+    @IBOutlet weak var hardHSDisplay: UILabel!
+    
+    var normHS: Int = 0
+    var hardHS: Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         initialMode()
+        normHS = UserDefaults.standard.integer(forKey: "normHS")
+        hardHS = UserDefaults.standard.integer(forKey: "hardHS")
+        normHSDisplay.text = String(normHS)
+        hardHSDisplay.text = String(hardHS)
         // Do any additional setup after loading the view.
     }
     
@@ -35,6 +44,15 @@ class SettingsViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let mainVC:ViewController = segue.destination as! ViewController
         mainVC.hardMode = isHardMode
+    }
+    
+    @IBAction func resetScoresSelected(_ sender: UIButton) {
+        normHS = 0
+        hardHS = 0
+        UserDefaults.standard.set(0, forKey: "normHS")
+        UserDefaults.standard.set(0, forKey: "hardHS")
+        normHSDisplay.text = String(normHS)
+        hardHSDisplay.text = String(hardHS)
     }
     
     func initialMode(){
