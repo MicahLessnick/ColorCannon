@@ -15,6 +15,8 @@ class ViewController: UIViewController {
     
     var firstColorPicked: Bool = false
     var hardMode: Bool = false
+    var currentMode: Bool = false
+    //currentMode will be checked against hardMode to see if score needs to be reset
     //flags for hard mode and number of selections
     
     var firstColor: String = ""
@@ -154,6 +156,20 @@ class ViewController: UIViewController {
     
     func isHardMode(_ hardSelected: Bool) {
         //called during initialization (and after returning from settings, if hard mode was toggled)
+        //also contains code to reset streak if the mode was changed
+        currentMode = UserDefaults.standard.bool(forKey: "curMod")
+        if currentMode == hardSelected{
+            userScore = UserDefaults.standard.integer(forKey: "uScore")
+            
+        }
+        else{
+            currentMode.toggle()
+            userScore = 0
+            UserDefaults.standard.set(0, forKey: "uScore")
+        }
+        UserDefaults.standard.set(currentMode, forKey: "curMod")
+        scoreLabel.text = "Streak: \(userScore)"
+        
         if hardSelected{
             //switch available color array based on mode selection
             //allows fewer if statements in switch
@@ -199,6 +215,7 @@ class ViewController: UIViewController {
 
             userScore = 0
         }
+        UserDefaults.standard.set(userScore, forKey: "uScore")
         scoreLabel.text = "Streak: \(userScore)"
         resetVars()
         togglePaintButtons()
