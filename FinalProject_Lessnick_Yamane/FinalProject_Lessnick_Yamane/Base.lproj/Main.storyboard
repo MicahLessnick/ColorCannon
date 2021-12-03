@@ -110,8 +110,8 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain">
-                                    <backgroundConfiguration key="background" image="Paint-Red"/>
+                                <buttonConfiguration key="configuration" style="plain" image="Paint-Red">
+                                    <backgroundConfiguration key="background"/>
                                 </buttonConfiguration>
                                 <connections>
                                     <action selector="paintCanClicked:" destination="bxQ-lk-LqZ" eventType="touchUpInside" id="tuR-GR-WlZ"/>
@@ -122,8 +122,8 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain">
-                                    <backgroundConfiguration key="background" image="Paint-Blue"/>
+                                <buttonConfiguration key="configuration" style="plain" image="Paint-Blue">
+                                    <backgroundConfiguration key="background"/>
                                 </buttonConfiguration>
                                 <connections>
                                     <action selector="paintCanClicked:" destination="bxQ-lk-LqZ" eventType="touchUpInside" id="Ikm-OR-07C"/>
@@ -134,8 +134,8 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain">
-                                    <backgroundConfiguration key="background" image="Paint-Yellow"/>
+                                <buttonConfiguration key="configuration" style="plain" image="Paint-Yellow">
+                                    <backgroundConfiguration key="background"/>
                                 </buttonConfiguration>
                                 <connections>
                                     <action selector="paintCanClicked:" destination="bxQ-lk-LqZ" eventType="touchUpInside" id="Bws-XW-3r9"/>
@@ -283,9 +283,9 @@
         <image name="Cannonball-Full-Purple" width="480" height="480"/>
         <image name="Fire" width="160" height="160"/>
         <image name="Highlight" width="356" height="426"/>
-        <image name="Paint-Blue" width="356" height="426"/>
-        <image name="Paint-Red" width="356" height="426"/>
-        <image name="Paint-Yellow" width="356" height="426"/>
+        <image name="Paint-Blue" width="60" height="72"/>
+        <image name="Paint-Red" width="60" height="72"/>
+        <image name="Paint-Yellow" width="60" height="72"/>
         <image name="Ship" width="480" height="480"/>
         <image name="gear" catalog="system" width="128" height="119"/>
         <systemColor name="systemBackgroundColor">

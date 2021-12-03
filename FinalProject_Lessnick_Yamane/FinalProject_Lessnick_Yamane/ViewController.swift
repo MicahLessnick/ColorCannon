@@ -180,9 +180,9 @@ class ViewController: UIViewController {
             colorArray = normalColors
             targetArray = normalTargets
         }
-        top.setBackgroundImage(UIImage(named: "Paint-\(colorArray[0])"), for: .normal)
-        mid.setBackgroundImage(UIImage(named: "Paint-\(colorArray[1])"), for: .normal)
-        bot.setBackgroundImage(UIImage(named: "Paint-\(colorArray[2])"), for: .normal)
+        top.setImage(UIImage(named: "Paint-\(colorArray[0])"), for: .normal)
+        mid.setImage(UIImage(named: "Paint-\(colorArray[1])"), for: .normal)
+        bot.setImage(UIImage(named: "Paint-\(colorArray[2])"), for: .normal)
     }
     
     func togglePaintButtons() {
