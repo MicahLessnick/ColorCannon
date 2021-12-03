@@ -92,6 +92,7 @@ class ViewController: UIViewController {
         let settingVC: SettingsViewController = segue.destination as! SettingsViewController
         
         settingVC.isHardMode = hardMode
+        settingVC.streak = userScore
     }
     
     /*override func viewDidAppear(_ animated: Bool) {
@@ -158,15 +159,11 @@ class ViewController: UIViewController {
         //called during initialization (and after returning from settings, if hard mode was toggled)
         //also contains code to reset streak if the mode was changed
         currentMode = UserDefaults.standard.bool(forKey: "curMod")
-        if currentMode == hardSelected{
-            userScore = UserDefaults.standard.integer(forKey: "uScore")
-            
-        }
-        else{
+        if currentMode != hardSelected{
             currentMode.toggle()
             userScore = 0
-            UserDefaults.standard.set(0, forKey: "uScore")
         }
+        
         UserDefaults.standard.set(currentMode, forKey: "curMod")
         scoreLabel.text = "Streak: \(userScore)"
         
@@ -215,7 +212,7 @@ class ViewController: UIViewController {
 
             userScore = 0
         }
-        UserDefaults.standard.set(userScore, forKey: "uScore")
+
         scoreLabel.text = "Streak: \(userScore)"
         resetVars()
         togglePaintButtons()
@@ -236,6 +233,7 @@ class ViewController: UIViewController {
         bot.isEnabled = true
         
         turnOffSelections()
+        cannonBallImage.image = UIImage(named: "Cannonball-Empty")
     }
     
     func resetVars(){
@@ -247,6 +245,7 @@ class ViewController: UIViewController {
         colorDisplay.text = targetColor
         fireButton.isEnabled = false
         turnOffSelections()
+        cannonBallImage.image = UIImage(named: "Cannonball-Empty")
     }
     
     func turnOffSelections() {

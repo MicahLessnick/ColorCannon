@@ -19,6 +19,9 @@ class SettingsViewController: UIViewController {
     var normHS: Int = 0
     var hardHS: Int = 0
     
+    var streak: Int = 0
+    //current user streak, variable used for storage only
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -44,6 +47,7 @@ class SettingsViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let mainVC:ViewController = segue.destination as! ViewController
         mainVC.hardMode = isHardMode
+        mainVC.userScore = streak
     }
     
     @IBAction func resetScoresSelected(_ sender: UIButton) {
