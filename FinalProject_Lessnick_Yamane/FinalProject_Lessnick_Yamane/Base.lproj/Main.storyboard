@@ -99,6 +99,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Clear">
+                                    <fontDescription key="titleFontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="18"/>
                                     <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </buttonConfiguration>
                                 <connections>
@@ -158,12 +159,15 @@
                         <outlet property="botSelect1" destination="t7N-YS-YwX" id="iWb-jQ-qWY"/>
                         <outlet property="botSelect2" destination="JNH-uh-u8Z" id="X0b-6s-fZY"/>
                         <outlet property="cannonBallImage" destination="wNR-JJ-qs0" id="soF-xV-BA5"/>
+                        <outlet property="cannonball_shot" destination="ec5-0l-aaH" id="dzJ-Sf-7aR"/>
+                        <outlet property="clear" destination="K4Y-QB-IRe" id="4RN-YY-zN6"/>
                         <outlet property="colorDisplay" destination="F5m-tp-1XN" id="HVK-vZ-g8J"/>
                         <outlet property="fireButton" destination="xBC-2E-B7D" id="Zbl-2Q-rD8"/>
                         <outlet property="mid" destination="qTN-mY-iv8" id="qhO-aT-rTX"/>
                         <outlet property="midSelect1" destination="GSa-HB-qUI" id="64R-1s-Cq0"/>
                         <outlet property="midSelect2" destination="t8p-iI-u3u" id="spV-Zi-b12"/>
                         <outlet property="scoreLabel" destination="upy-e0-0aJ" id="YvZ-ae-U8e"/>
+                        <outlet property="ship" destination="fse-g4-1kw" id="r1H-gm-rkp"/>
                         <outlet property="top" destination="Dty-Gh-4NR" id="TeK-4a-4aj"/>
                         <outlet property="topSelect1" destination="uRE-TD-3X3" id="S1M-RL-HdT"/>
                         <outlet property="topSelect2" destination="LxD-s3-zdv" id="3AV-Xo-rUW"/>

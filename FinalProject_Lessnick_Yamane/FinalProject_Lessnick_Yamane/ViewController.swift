@@ -12,6 +12,9 @@ class ViewController: UIViewController {
     @IBOutlet weak var cannonBallImage: UIImageView!
     @IBOutlet weak var scoreLabel: UILabel!
     @IBOutlet weak var fireButton: UIButton!
+    @IBOutlet weak var ship: UIImageView!
+    @IBOutlet weak var cannonball_shot: UIImageView!
+    @IBOutlet weak var clear: UIButton!
     
     var firstColorPicked: Bool = false
     var hardMode: Bool = false
@@ -192,32 +195,165 @@ class ViewController: UIViewController {
     @IBAction func fireCannon(_ sender: UIButton) {
         //fires the cannon when userColor has been populated
         //sets user inputs back to empty strings and decides what to do on success/fail
-        if userColor == targetColor{
-
-            userScore += 1
-            if !hardMode{
-                if userScore > normalHS{
-                    //if normal mode streak is better than current high score, override previous high score
-                    UserDefaults.standard.set(userScore, forKey: "normHS")
-                }
-            }
-            else{
-                if userScore > hardHS{
-                    //if hard mode streak is better than current high score, override previous high score
-                    UserDefaults.standard.set(userScore, forKey: "hardHS")
+        
+        let shipCenter = self.ship.center
+        let labelCenter = self.colorDisplay.center
+        let oldCenter = self.cannonball_shot.center
+        let newCenter = CGPoint(x: shipCenter.x, y: shipCenter.y + 50.0)
+        let oldSize = 65.0
+        let newSize = 10.0
+        
+        clear.isEnabled = false
+        fireButton.isEnabled = false
+        
+        // begin animation
+        self.cannonBallImage.isHidden = true                                              // hide cannonball on screen
+        self.cannonball_shot.image = UIImage(named: "Cannonball-Full-\(self.userColor)")  // set cannonball image
+        UIView.animate(withDuration: 1.0, delay: 0, options: .curveEaseOut, animations: {
+            // rising
+            let toSize = newSize + 15.0
+            self.cannonball_shot.frame = CGRect(x: newCenter.x-(toSize/2),
+                                           y: newCenter.y - 60.0,
+                                           width: toSize, height: toSize)
+        }) { (success: Bool) in
+            
+            // falling and hit ship
+            UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseIn, animations: {
+                self.cannonball_shot.frame = CGRect(x: newCenter.x-(newSize/2),
+                                               y: newCenter.y,
+                                               width: newSize, height: newSize)
+            }) { (success: Bool) in
+                
+                // check if answer is correct
+                if self.userColor == self.targetColor {
+                    // correct combo
+                    self.userScore += 1
+                    
+                    if !self.hardMode{
+                        if self.userScore > self.normalHS{
+                            //if normal mode streak is better than current high score, override previous high score
+                            UserDefaults.standard.set(self.userScore, forKey: "normHS")
+                        }
+                    }
+                    else{
+                        if self.userScore > self.hardHS{
+                            //if hard mode streak is better than current high score, override previous high score
+                            UserDefaults.standard.set(self.userScore, forKey: "hardHS")
+                        }
+                    }
+                    
+                    // change ship to explosion and bring in new ship
+                    self.sinkShip(shipCenter, labelCenter, oldCenter, newCenter, oldSize, newSize)
+                    
+                } else {
+                    self.userScore = 0
+                    
+                    // bounce off the ship and don't move until third miss
+                    
+                    // bounce cannonball off ship and sail away
+                    // TODO: only sail away if third fail
+                    self.bounceOffShip(shipCenter, labelCenter, oldCenter, newCenter, oldSize, newSize)
                 }
             }
         }
-        else{
-
-            userScore = 0
-        }
-
-        scoreLabel.text = "Streak: \(userScore)"
-        resetVars()
-        togglePaintButtons()
     }
     
+    func afterFire() {
+        self.scoreLabel.text = "Streak: \(self.userScore)"
+        self.cannonBallImage.isHidden = false  // show cannonball again
+        resetVars()
+        togglePaintButtons()
+        clear.isEnabled = true
+    }
+    
+    func sinkShip(_ shipCenter:CGPoint, _ labelCenter:CGPoint, _ oldCenter:CGPoint, _ newCenter:CGPoint,
+                        _ oldSize : CGFloat, _ newSize: CGFloat) {
+        self.cannonball_shot.frame = CGRect(x: oldCenter.x-(oldSize/2),
+                                       y: oldCenter.y-(oldSize/2),
+                                       width: oldSize, height: oldSize)
+        self.ship.image = UIImage(named: "Ship-Burn")
+        
+        // fade ship
+        UIView.animate(withDuration: 2.0, delay: 0, options: .curveEaseIn, animations: {
+            self.ship.alpha = 0
+            self.colorDisplay.alpha = 0
+        }) { (success: Bool) in
+            self.ship.image = UIImage(named: "Ship")
+            
+            // bring in new ship
+            self.bringInNewShip(shipCenter, labelCenter, oldCenter, newCenter, oldSize, newSize)
+        }
+    }  // end of sinkShip
+    
+    func bounceOffShip(_ shipCenter:CGPoint, _ labelCenter:CGPoint, _ oldCenter:CGPoint, _ newCenter:CGPoint,
+                       _ oldSize : CGFloat, _ newSize: CGFloat) {
+        // bounce off Ship
+        let growth = 5.0
+        UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseIn, animations: {
+            self.cannonball_shot.frame = CGRect(x: newCenter.x + 5.0,
+                                           y: newCenter.y,
+                                           width: newSize+growth,
+                                           height: newSize+growth)
+        }) { (success: Bool) in
+            
+            // go off to the side
+            UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseOut, animations: {
+                self.cannonball_shot.frame = CGRect(x: newCenter.x + 5.0,
+                                               y: newCenter.y+30.0,
+                                               width: newSize+growth, height: newSize+growth)
+            }) { (success: Bool) in
+                
+                // land in water
+                UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseOut, animations: {
+                    self.cannonball_shot.frame = CGRect(x: newCenter.x + 5.0,
+                                                   y: newCenter.y+30.0,
+                                                   width: newSize+growth, height: newSize+growth)
+                }) { (success: Bool) in
+                    
+                    // cannonball fades and ship sails away
+                    UIView.animate(withDuration: 2.0, delay: 0, options: .curveLinear, animations: {
+                        self.cannonball_shot.alpha = 0
+                        self.ship.frame = CGRect(x: -160,
+                                                 y: shipCenter.y-80,
+                                                 width: 160, height: 160)
+                    }) { (success: Bool) in
+                        
+                        // reset cannonball location and size
+                        self.cannonball_shot.frame = CGRect(x: oldCenter.x-(oldSize/2),
+                                                       y: oldCenter.y-(oldSize/2),
+                                                       width: oldSize, height: oldSize)
+                        self.bringInNewShip(shipCenter, labelCenter, oldCenter, newCenter, oldSize, newSize)
+                    }
+                }
+            }
+
+        }
+    }  // end of bounceOffShip
+    
+    func bringInNewShip(_ shipCenter:CGPoint, _ labelCenter:CGPoint, _ oldCenter:CGPoint, _ newCenter:CGPoint,
+                  _ oldSize : CGFloat, _ newSize: CGFloat) {
+        // bring in a ship from the right side of the screen
+        self.ship.frame = CGRect(x: 414,
+                                 y: shipCenter.y-80,
+                                 width: 160, height: 160)
+        /*
+        self.colorDisplay = CGRect(x: 414,
+                                   y: labelCenter.y-40,
+                                   width: 119, height: 80)
+        */
+        self.ship.alpha = 1
+        self.colorDisplay.alpha = 1
+        self.cannonball_shot.alpha = 1
+        
+        UIView.animate(withDuration: 2.0, delay: 0, options: .curveLinear, animations: {
+            self.ship.frame = CGRect(x: shipCenter.x-80,
+                                     y: shipCenter.y-80,
+                                     width: 160, height: 160)
+        }) { (success: Bool) in
+            
+            self.afterFire()
+        }
+    }  // end of bringInNewShip
     
     @IBAction func clearContents(_ sender: UIButton) {
         //clears user selection, keeps current target
