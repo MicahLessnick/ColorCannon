@@ -39,6 +39,7 @@ class ViewController: UIViewController {
     //target and user input
     
     var userScore = 0
+    var misses = 0
     //user's streak
     
     var normalHS: Int = 0
@@ -83,6 +84,8 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
         isHardMode(hardMode)
         resetVars()
+        targetColor = targetArray.randomElement()!
+        colorDisplay.text = targetColor
         turnOffSelections()
         //resetVars sets all varables to their default, disables fire button, and generates a new target
         
@@ -209,6 +212,7 @@ class ViewController: UIViewController {
         // begin animation
         self.cannonBallImage.isHidden = true                                              // hide cannonball on screen
         self.cannonball_shot.image = UIImage(named: "Cannonball-Full-\(self.userColor)")  // set cannonball image
+        
         UIView.animate(withDuration: 1.0, delay: 0, options: .curveEaseOut, animations: {
             // rising
             let toSize = newSize + 15.0
@@ -228,6 +232,7 @@ class ViewController: UIViewController {
                 if self.userColor == self.targetColor {
                     // correct combo
                     self.userScore += 1
+                    self.misses = 0
                     
                     if !self.hardMode{
                         if self.userScore > self.normalHS{
@@ -246,12 +251,11 @@ class ViewController: UIViewController {
                     self.sinkShip(shipCenter, labelCenter, oldCenter, newCenter, oldSize, newSize)
                     
                 } else {
+                    // wrong combo
                     self.userScore = 0
+                    self.misses += 1
                     
                     // bounce off the ship and don't move until third miss
-                    
-                    // bounce cannonball off ship and sail away
-                    // TODO: only sail away if third fail
                     self.bounceOffShip(shipCenter, labelCenter, oldCenter, newCenter, oldSize, newSize)
                 }
             }
@@ -268,15 +272,21 @@ class ViewController: UIViewController {
     
     func sinkShip(_ shipCenter:CGPoint, _ labelCenter:CGPoint, _ oldCenter:CGPoint, _ newCenter:CGPoint,
                         _ oldSize : CGFloat, _ newSize: CGFloat) {
+        // reset cannonball shot
         self.cannonball_shot.frame = CGRect(x: oldCenter.x-(oldSize/2),
                                        y: oldCenter.y-(oldSize/2),
                                        width: oldSize, height: oldSize)
+        // change ship to burning
         self.ship.image = UIImage(named: "Ship-Burn")
         
-        // fade ship
-        UIView.animate(withDuration: 2.0, delay: 0, options: .curveEaseIn, animations: {
-            self.ship.alpha = 0
-            self.colorDisplay.alpha = 0
+        // sink ship
+        UIView.animate(withDuration: 1.0, delay: 0, options: .curveEaseIn, animations: {
+            self.ship.frame = CGRect(x: shipCenter.x - 123,
+                                     y: shipCenter.y + 80,
+                                     width: 246, height: 160)
+            self.colorDisplay.frame = CGRect(x: labelCenter.x - 60.5,
+                                             y: labelCenter.y + 120,
+                                             width: 119, height: 80)
         }) { (success: Bool) in
             self.ship.image = UIImage(named: "Ship")
             
@@ -289,6 +299,7 @@ class ViewController: UIViewController {
                        _ oldSize : CGFloat, _ newSize: CGFloat) {
         // bounce off Ship
         let growth = 5.0
+        
         UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseIn, animations: {
             self.cannonball_shot.frame = CGRect(x: newCenter.x + 5.0,
                                            y: newCenter.y,
@@ -309,43 +320,73 @@ class ViewController: UIViewController {
                                                    y: newCenter.y+30.0,
                                                    width: newSize+growth, height: newSize+growth)
                 }) { (success: Bool) in
+                    // cannonball splashes
+                    self.cannonball_shot.image = UIImage(named: "Cannonball-Splash")
                     
-                    // cannonball fades and ship sails away
-                    UIView.animate(withDuration: 2.0, delay: 0, options: .curveLinear, animations: {
-                        self.cannonball_shot.alpha = 0
-                        self.ship.frame = CGRect(x: -160,
-                                                 y: shipCenter.y-80,
-                                                 width: 160, height: 160)
-                    }) { (success: Bool) in
+                    // don't sail away until 3 misses
+                    if self.misses == 3 {
+                        self.misses = 0
                         
-                        // reset cannonball location and size
-                        self.cannonball_shot.frame = CGRect(x: oldCenter.x-(oldSize/2),
-                                                       y: oldCenter.y-(oldSize/2),
-                                                       width: oldSize, height: oldSize)
-                        self.bringInNewShip(shipCenter, labelCenter, oldCenter, newCenter, oldSize, newSize)
+                        // ship sails away
+                        UIView.animate(withDuration: 1.5, delay: 0, options: .curveLinear, animations: {
+                            self.ship.frame = CGRect(x: -160,
+                                                     y: shipCenter.y-80,
+                                                     width: 160, height: 160)
+                            self.colorDisplay.frame = CGRect(x: -140,
+                                                             y: labelCenter.y-40,
+                                                             width: 119, height: 80)
+                            
+                        }) { (success: Bool) in
+                            // reset cannonball location and size
+                            self.cannonball_shot.frame = CGRect(x: oldCenter.x-(oldSize/2),
+                                                           y: oldCenter.y-(oldSize/2),
+                                                           width: oldSize, height: oldSize)
+                            
+                            self.bringInNewShip(shipCenter, labelCenter, oldCenter, newCenter, oldSize, newSize)
+                        }
+                    } else {
+                        // sink cannonball slowly
+                        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut, animations: {
+                            self.cannonball_shot.frame = CGRect(x: newCenter.x + 5.0,
+                                                           y: newCenter.y+31.0,
+                                                           width: newSize+growth, height: newSize+growth)
+                        }) { (success: Bool) in
+                        
+                            // reset cannonball location and size
+                            self.cannonball_shot.frame = CGRect(x: oldCenter.x-(oldSize/2),
+                                                           y: oldCenter.y-(oldSize/2),
+                                                           width: oldSize, height: oldSize)
+                            self.cannonball_shot.image = UIImage(named: "Cannonball-Empty")
+                            self.afterFire()
+                        }
                     }
                 }
             }
-
         }
     }  // end of bounceOffShip
     
     func bringInNewShip(_ shipCenter:CGPoint, _ labelCenter:CGPoint, _ oldCenter:CGPoint, _ newCenter:CGPoint,
                   _ oldSize : CGFloat, _ newSize: CGFloat) {
-        // bring in a ship from the right side of the screen
+        // set new color
+        targetColor = targetArray.randomElement()!
+        colorDisplay.text = targetColor
+        
+        // set ship and color label to right side
         self.ship.frame = CGRect(x: 414,
                                  y: shipCenter.y-80,
                                  width: 160, height: 160)
-        /*
-        self.colorDisplay = CGRect(x: 414,
-                                   y: labelCenter.y-40,
-                                   width: 119, height: 80)
-        */
-        self.ship.alpha = 1
-        self.colorDisplay.alpha = 1
+        self.colorDisplay.frame = CGRect(x: 414+20,
+                                         y: labelCenter.y-40,
+                                         width: 119, height: 80)
+        
         self.cannonball_shot.alpha = 1
         
-        UIView.animate(withDuration: 2.0, delay: 0, options: .curveLinear, animations: {
+        
+        UIView.animate(withDuration: 1.5, delay: 1.0, options: .curveLinear, animations: {
+            // bring in ship
+            self.colorDisplay.frame = CGRect(x: labelCenter.x-60.5,
+                                        y: labelCenter.y-40,
+                                        width: 119, height: 80)
             self.ship.frame = CGRect(x: shipCenter.x-80,
                                      y: shipCenter.y-80,
                                      width: 160, height: 160)
@@ -377,8 +418,6 @@ class ViewController: UIViewController {
         firstColor = ""
         secondColor = ""
         userColor = ""
-        targetColor = targetArray.randomElement()!
-        colorDisplay.text = targetColor
         fireButton.isEnabled = false
         turnOffSelections()
         cannonBallImage.image = UIImage(named: "Cannonball-Empty")
