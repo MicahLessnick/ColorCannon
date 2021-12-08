@@ -35,6 +35,11 @@ class SettingsViewController: UIViewController {
     
     var streak: Int = 0
     //current user streak, variable used for storage only
+    var randomArray = [2.0, 3.0, 5.0, 7.0]
+    @IBOutlet weak var supImg: UIImageView!
+    var timer1: Timer!
+    var timer2: Timer!
+    @IBOutlet var longPress: UILongPressGestureRecognizer!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -110,4 +115,30 @@ class SettingsViewController: UIViewController {
             sfxSwitch.isOn = false
         }
     }
+    
+    @IBAction func surprise(_ sender: UILongPressGestureRecognizer) {
+        longPress.isEnabled = false
+        let randDelay: Double = randomArray.randomElement()!
+        //add code to set view as certain image after delay
+        // view.backgroundColor = UIColor.init(named: "red")
+        self.timer1 = Timer.scheduledTimer(timeInterval: randDelay,
+                                          target: self,
+                                          selector: #selector(waitImage),
+                                          userInfo: nil,
+                                          repeats: false)
+        
+    }
+    
+    @objc func waitImage(_ sender: Timer) {
+        supImg.image = UIImage(named: "spook")
+        self.timer2 = Timer.scheduledTimer(timeInterval: 0.6,
+                                          target: self,
+                                          selector: #selector(flipImage),
+                                          userInfo: nil,
+                                          repeats: false)
+    }
+    @objc func flipImage(_ sender: Timer) {
+        supImg.image = UIImage(named: "transparency")
+    }
+    
 }
