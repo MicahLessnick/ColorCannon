@@ -295,7 +295,7 @@
                                     <action selector="resetScoresSelected:" destination="dNA-7f-nQS" eventType="touchUpInside" id="WYB-3d-teD"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wyR-l0-B8n">
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wyR-l0-B8n" userLabel="easterEgg">
                                 <rect key="frame" x="0.0" y="768" width="240" height="128"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -314,6 +314,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="fiQ-49-POe"/>
                     <connections>
+                        <outlet property="easterEgg" destination="wyR-l0-B8n" id="kFr-ec-aJN"/>
                         <outlet property="hardHSDisplay" destination="AyK-g8-mpM" id="C4o-Im-98n"/>
                         <outlet property="hardSwitch" destination="rMz-N7-qcZ" id="Fse-a0-0fY"/>
                         <outlet property="longPress" destination="1mC-wZ-c1i" id="Yue-fw-Pfc"/>

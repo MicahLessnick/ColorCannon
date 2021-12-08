@@ -1,9 +1,13 @@
+//-----------------------------------------------------------------------------------------
+// Micah Lessnick and Mark Yamane, 12/08/2021
 //
-//  SettingsViewController.swift
-//  FinalProject_Lessnick_Yamane
+// Color Cannon Settings
 //
-//  Created by  on 11/29/21.
+// Allows the user to toggle between easy and hard mode, as well as mute sound effects or
+// music.
 //
+// The code contained in this program represents our own work and ideas - ML and MY
+//-----------------------------------------------------------------------------------------
 
 import UIKit
 import AVFoundation
@@ -25,21 +29,26 @@ class SettingsViewController: UIViewController {
     
     var muteMusic: Bool = false
     var muteSFX: Bool = false
+    var musicChanged: Bool = false
+    var audioDir = "sounds/"
     var backgroundPlayer = AVAudioPlayer()   // AudioPlayer for background music
     var audioPlayer1 = AVAudioPlayer()       // sfx AudioPlayer
     var audioPlayer2 = AVAudioPlayer()       // another AudioPlayer to prevent overlapping
-    
+    var screamPlayer = AVAudioPlayer()       // AudioPlayer for jump scare
+    var surprisedPressed = false
     var targetColor = ""
     
     var modeChanged:Bool = false
     
     var streak: Int = 0
     //current user streak, variable used for storage only
-    var randomArray = [2.0, 3.0, 5.0, 7.0]
+    var randomArray = [2.0, 3.0, 4.0, 5.0]
     @IBOutlet weak var supImg: UIImageView!
     var timer1: Timer!
     var timer2: Timer!
+    var timer3: Timer!
     @IBOutlet var longPress: UILongPressGestureRecognizer!
+    @IBOutlet weak var easterEgg: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,6 +59,7 @@ class SettingsViewController: UIViewController {
         normHSDisplay.text = String(normHS)
         hardHSDisplay.text = String(hardHS)
         modeChanged = false
+        musicChanged = false
     }
     
     @IBAction func hardModeToggle(_ sender: UISwitch) {
@@ -67,8 +77,19 @@ class SettingsViewController: UIViewController {
     
     @IBAction func musicToggle(_ sender: UISwitch) {
         muteMusic.toggle()
+        musicChanged.toggle()
         if muteMusic {
             backgroundPlayer.stop()
+        } else {
+            let backgroundMusic = URL(fileURLWithPath: Bundle.main.path(forResource: self.audioDir+"background-music", ofType:"mp3")!)
+            do {
+                self.backgroundPlayer = try AVAudioPlayer(contentsOf: backgroundMusic)
+                self.backgroundPlayer.numberOfLoops = -1 // loop music
+                self.backgroundPlayer.play()
+                
+           } catch {
+                print("Sound file not found")
+           }
         }
     }
     
@@ -78,6 +99,7 @@ class SettingsViewController: UIViewController {
         mainVC.userScore = streak
         mainVC.muteSFX = muteSFX
         mainVC.muteMusic = muteMusic
+        mainVC.musicChanged = musicChanged
         mainVC.backgroundPlayer = backgroundPlayer
         mainVC.audioPlayer1 = audioPlayer1
         mainVC.audioPlayer2 = audioPlayer2
@@ -116,21 +138,39 @@ class SettingsViewController: UIViewController {
         }
     }
     
+    
     @IBAction func surprise(_ sender: UILongPressGestureRecognizer) {
         longPress.isEnabled = false
-        let randDelay: Double = randomArray.randomElement()!
-        //add code to set view as certain image after delay
-        // view.backgroundColor = UIColor.init(named: "red")
-        self.timer1 = Timer.scheduledTimer(timeInterval: randDelay,
-                                          target: self,
-                                          selector: #selector(waitImage),
-                                          userInfo: nil,
-                                          repeats: false)
+        easterEgg.isUserInteractionEnabled = false
         
+        if !surprisedPressed {
+            surprisedPressed.toggle()
+            backgroundPlayer.stop()
+            let randDelay: Double = randomArray.randomElement()!
+            //add code to set view as jump scare after delay
+            self.timer1 = Timer.scheduledTimer(timeInterval: randDelay,
+                                              target: self,
+                                              selector: #selector(waitImage),
+                                              userInfo: nil,
+                                              repeats: false)
+            
+        }
     }
     
     @objc func waitImage(_ sender: Timer) {
         supImg.image = UIImage(named: "spook")
+        
+        if !muteSFX {
+            // play scream
+            let scream = URL(fileURLWithPath: Bundle.main.path(forResource: self.audioDir+"scream", ofType:"mp3")!)// play sfx
+            do {
+                self.screamPlayer = try AVAudioPlayer(contentsOf: scream)
+                self.screamPlayer.play()
+           } catch {
+                print("Sound file not found")
+           }
+        }
+        
         self.timer2 = Timer.scheduledTimer(timeInterval: 0.6,
                                           target: self,
                                           selector: #selector(flipImage),
@@ -139,6 +179,31 @@ class SettingsViewController: UIViewController {
     }
     @objc func flipImage(_ sender: Timer) {
         supImg.image = UIImage(named: "transparency")
+        if muteMusic {
+            backgroundPlayer.stop()
+        } else {
+            self.timer1 = Timer.scheduledTimer(timeInterval: 2.0,
+                                              target: self,
+                                              selector: #selector(playMusicAgain),
+                                              userInfo: nil,
+                                              repeats: false)
+        }
+    }
+    
+    @objc func playMusicAgain(_ sender: Timer) {
+        if muteMusic {
+            backgroundPlayer.stop()
+        } else {
+            let backgroundMusic = URL(fileURLWithPath: Bundle.main.path(forResource: self.audioDir+"background-music", ofType:"mp3")!)
+            do {
+                self.backgroundPlayer = try AVAudioPlayer(contentsOf: backgroundMusic)
+                self.backgroundPlayer.numberOfLoops = -1 // loop music
+                self.backgroundPlayer.play()
+                
+           } catch {
+                print("Sound file not found")
+           }
+        }
     }
     
 }

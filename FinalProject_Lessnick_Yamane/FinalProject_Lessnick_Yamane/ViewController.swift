@@ -1,11 +1,14 @@
+//-----------------------------------------------------------------------------------------
+// Micah Lessnick and Mark Yamane, 12/08/2021
 //
-//  ViewController.swift
-//  FinalProject_Lessnick_Yamane
+// Color Cannon
 //
-//  Created by  on 11/14/21.
+// iOS iPhone 11 app that teaches basic color theory through building paint cannonballs
+// that destroy ships with the correct color combination, and bounces off otherwise. The
+// user has three tries before the ship sails away.
 //
-// TODO: Pass mute boolean between segues
-// TODO: What style of music?
+// The code contained in this program represents our own work and ideas - ML and MY
+//-----------------------------------------------------------------------------------------
 
 import UIKit
 import AVFoundation
@@ -51,6 +54,7 @@ class ViewController: UIViewController {
     //highscores
     
     var muteMusic: Bool = false
+    var musicChanged: Bool = true
     var muteSFX: Bool = false
     var backgroundPlayer = AVAudioPlayer()   // AudioPlayer for background music
     var audioPlayer1 = AVAudioPlayer()       // sfx AudioPlayer
@@ -116,17 +120,18 @@ class ViewController: UIViewController {
             print(error)
         }
         
-        if !muteMusic {
-            // play slide whistle sound
-            let backgroundMusic = URL(fileURLWithPath: Bundle.main.path(forResource: self.audioDir+"background-music", ofType:"mp3")!)// play sfx
+        if !muteMusic && musicChanged {
+            // play background music
+            let backgroundMusic = URL(fileURLWithPath: Bundle.main.path(forResource: self.audioDir+"background-music", ofType:"mp3")!)
             do {
                 self.backgroundPlayer = try AVAudioPlayer(contentsOf: backgroundMusic)
-                self.backgroundPlayer.play()
                 self.backgroundPlayer.numberOfLoops = -1 // loop music
+                self.backgroundPlayer.play()
            } catch {
                 print("Sound file not found")
            }
-        } else {
+        } else if !muteMusic && !musicChanged {
+        } else if muteMusic {
             self.backgroundPlayer.stop()
         }
         
@@ -139,6 +144,7 @@ class ViewController: UIViewController {
         settingVC.streak = userScore
         settingVC.muteSFX = muteSFX
         settingVC.muteMusic = muteMusic
+        settingVC.musicChanged = musicChanged
         settingVC.backgroundPlayer = backgroundPlayer
         settingVC.audioPlayer1 = audioPlayer1
         settingVC.audioPlayer2 = audioPlayer2
@@ -146,13 +152,6 @@ class ViewController: UIViewController {
         settingVC.targetColor = targetColor
     }
     
-    /*override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        //may need to use this function to change paint colors
-     
-        isHardMode(hardMode)
-        turnOffSelections()
-    }*/
     
     @IBAction func paintCanClicked(_ sender: UIButton) {
         if !firstColorPicked{
@@ -260,7 +259,7 @@ class ViewController: UIViewController {
         
         if !self.muteSFX {
             // play launch
-            let sfx1 = URL(fileURLWithPath: Bundle.main.path(forResource: self.audioDir+"launch", ofType:"mp3")!)// play sfx
+            let sfx1 = URL(fileURLWithPath: Bundle.main.path(forResource: self.audioDir+"launch", ofType:"mp3")!)
             do {
                 self.audioPlayer1 = try AVAudioPlayer(contentsOf: sfx1)
                 self.audioPlayer1.play()
@@ -274,7 +273,7 @@ class ViewController: UIViewController {
             // rising
             if !self.muteSFX {
                 // play slide whistle sound
-                let sfx2 = URL(fileURLWithPath: Bundle.main.path(forResource: self.audioDir+"whistle", ofType:"mp3")!)// play sfx
+                let sfx2 = URL(fileURLWithPath: Bundle.main.path(forResource: self.audioDir+"whistle", ofType:"mp3")!)
                 do {
                     self.audioPlayer2 = try AVAudioPlayer(contentsOf: sfx2)
                     self.audioPlayer2.play()
@@ -352,8 +351,8 @@ class ViewController: UIViewController {
         // sink ship
         UIView.animate(withDuration: 1.0, delay: 0, options: .curveEaseIn, animations: {
             if !self.muteSFX {
-                // set sfx to slide whistle
-                let sfx = URL(fileURLWithPath: Bundle.main.path(forResource: self.audioDir+"explosion", ofType:"mp3")!)// play sfx
+                // set sfx to explosion
+                let sfx = URL(fileURLWithPath: Bundle.main.path(forResource: self.audioDir+"explosion", ofType:"mp3")!)
                 do {
                     self.audioPlayer2 = try AVAudioPlayer(contentsOf: sfx)
                     self.audioPlayer2.play()
@@ -385,7 +384,7 @@ class ViewController: UIViewController {
         UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseIn, animations: {
             if !self.muteSFX {
                 // play thud
-                let sfx = URL(fileURLWithPath: Bundle.main.path(forResource: self.audioDir+"thud", ofType:"mp3")!)// play sfx
+                let sfx = URL(fileURLWithPath: Bundle.main.path(forResource: self.audioDir+"thud", ofType:"mp3")!)
                 do {
                     self.audioPlayer1 = try AVAudioPlayer(contentsOf: sfx)
                     self.audioPlayer1.play()
@@ -419,7 +418,7 @@ class ViewController: UIViewController {
                     
                     if !self.muteSFX {
                         // play splash
-                        let sfx = URL(fileURLWithPath: Bundle.main.path(forResource: self.audioDir+"splash", ofType:"mp3")!)// play sfx
+                        let sfx = URL(fileURLWithPath: Bundle.main.path(forResource: self.audioDir+"splash", ofType:"mp3")!)
                         do {
                             self.audioPlayer1 = try AVAudioPlayer(contentsOf: sfx)
                             self.audioPlayer1.play()
@@ -443,8 +442,8 @@ class ViewController: UIViewController {
                             self.cannonball_shot.alpha = 0
                             
                             if !self.muteSFX {
-                                // play launch
-                                let sfx1 = URL(fileURLWithPath: Bundle.main.path(forResource: self.audioDir+"sail", ofType:"mp3")!)// play sfx
+                                // play sail sound
+                                let sfx1 = URL(fileURLWithPath: Bundle.main.path(forResource: self.audioDir+"sail", ofType:"mp3")!)
                                 do {
                                     self.audioPlayer1 = try AVAudioPlayer(contentsOf: sfx1)
                                     self.audioPlayer1.play()
@@ -508,8 +507,8 @@ class ViewController: UIViewController {
         
         UIView.animate(withDuration: 1.5, delay: 1.0, options: .curveLinear, animations: {
             if !self.muteSFX {
-                // play sail
-                let sfx1 = URL(fileURLWithPath: Bundle.main.path(forResource: self.audioDir+"sail_late", ofType:"mp3")!)// play sfx
+                // play sail sound
+                let sfx1 = URL(fileURLWithPath: Bundle.main.path(forResource: self.audioDir+"sail_late", ofType:"mp3")!)
                 do {
                     self.audioPlayer1 = try AVAudioPlayer(contentsOf: sfx1)
                     self.audioPlayer1.play()
