@@ -104,9 +104,6 @@ class ViewController: UIViewController {
         normalHS = UserDefaults.standard.integer(forKey: "normHS")
         hardHS = UserDefaults.standard.integer(forKey: "hardHS")
         
-        muteMusic = UserDefaults.standard.bool(forKey: "muteMusic")
-        muteSFX = UserDefaults.standard.bool(forKey: "muteSFX")
-        
         // Configure AVAudioSession
         do {
             try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)

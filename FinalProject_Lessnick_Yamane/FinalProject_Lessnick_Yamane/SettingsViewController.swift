@@ -41,12 +41,6 @@ class SettingsViewController: UIViewController {
     @IBAction func hardModeToggle(_ sender: UISwitch) {
         //toggle hard mode flag when the switch is pressed
         isHardMode.toggle()
-        if sender.isOn{
-            modeLabel.text = "Hard Mode"
-        }
-        else{
-            modeLabel.text = "Normal Mode"
-        }
     }
     @IBAction func sfxToggle(_ sender: UISwitch) {
         muteSFX.toggle()
@@ -77,11 +71,9 @@ class SettingsViewController: UIViewController {
         //set the switch's initial appearance based on isHardMode
         if isHardMode{
             hardSwitch.isOn = true
-            modeLabel.text = "Hard Mode"
         }
         else{
             hardSwitch.isOn = false
-            modeLabel.text = "Normal Mode"
         }
         
         if muteMusic {
