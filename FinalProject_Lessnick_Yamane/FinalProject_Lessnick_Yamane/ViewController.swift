@@ -22,12 +22,9 @@ class ViewController: UIViewController {
     var firstColorPicked: Bool = false
     var hardMode: Bool = false
     var currentMode: Bool = false
+    var modeChanged:Bool = true
     //currentMode will be checked against hardMode to see if score needs to be reset
     //flags for hard mode and number of selections
-    
-    var audioPlayer1 = AVAudioPlayer()   // initialize AudioPlayer
-    var audioPlayer2 = AVAudioPlayer()   // initialize AudioPlayer
-    var audioDir = "sounds/"            // audio directory
     
     var firstColor: String = ""
     var secondColor: String = ""
@@ -55,6 +52,10 @@ class ViewController: UIViewController {
     
     var muteMusic: Bool = false
     var muteSFX: Bool = false
+    var backgroundPlayer = AVAudioPlayer()   // AudioPlayer for background music
+    var audioPlayer1 = AVAudioPlayer()       // sfx AudioPlayer
+    var audioPlayer2 = AVAudioPlayer()       // another AudioPlayer to prevent overlapping
+    var audioDir = "sounds/"                 // audio directory
     
     let inputsToOutput = ["RedRed":"Red",
                           "RedBlue":"Purple",
@@ -97,8 +98,11 @@ class ViewController: UIViewController {
         turnOffSelections()
         //resetVars sets all varables to their default, disables fire button
         
-        // select new color
-        targetColor = targetArray.randomElement()!
+        if modeChanged {
+            // select new color
+            targetColor = targetArray.randomElement()!
+            modeChanged.toggle()
+        }
         colorDisplay.text = targetColor
         
         normalHS = UserDefaults.standard.integer(forKey: "normHS")
@@ -112,6 +116,20 @@ class ViewController: UIViewController {
             print(error)
         }
         
+        if !muteMusic {
+            // play slide whistle sound
+            let backgroundMusic = URL(fileURLWithPath: Bundle.main.path(forResource: self.audioDir+"background-music", ofType:"mp3")!)// play sfx
+            do {
+                self.backgroundPlayer = try AVAudioPlayer(contentsOf: backgroundMusic)
+                self.backgroundPlayer.play()
+                self.backgroundPlayer.numberOfLoops = -1 // loop music
+           } catch {
+                print("Sound file not found")
+           }
+        } else {
+            self.backgroundPlayer.stop()
+        }
+        
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -121,6 +139,11 @@ class ViewController: UIViewController {
         settingVC.streak = userScore
         settingVC.muteSFX = muteSFX
         settingVC.muteMusic = muteMusic
+        settingVC.backgroundPlayer = backgroundPlayer
+        settingVC.audioPlayer1 = audioPlayer1
+        settingVC.audioPlayer2 = audioPlayer2
+        settingVC.modeChanged = modeChanged
+        settingVC.targetColor = targetColor
     }
     
     /*override func viewDidAppear(_ animated: Bool) {
