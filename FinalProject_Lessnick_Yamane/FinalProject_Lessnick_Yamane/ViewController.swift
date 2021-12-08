@@ -4,8 +4,11 @@
 //
 //  Created by  on 11/14/21.
 //
+// TODO: Pass mute boolean between segues
+// TODO: What style of music?
 
 import UIKit
+import AVFoundation
 
 class ViewController: UIViewController {
     
@@ -21,6 +24,10 @@ class ViewController: UIViewController {
     var currentMode: Bool = false
     //currentMode will be checked against hardMode to see if score needs to be reset
     //flags for hard mode and number of selections
+    
+    var audioPlayer1 = AVAudioPlayer()   // initialize AudioPlayer
+    var audioPlayer2 = AVAudioPlayer()   // initialize AudioPlayer
+    var audioDir = "sounds/"            // audio directory
     
     var firstColor: String = ""
     var secondColor: String = ""
@@ -45,6 +52,9 @@ class ViewController: UIViewController {
     var normalHS: Int = 0
     var hardHS: Int = 0
     //highscores
+    
+    var muteMusic: Bool = false
+    var muteSFX: Bool = false
     
     let inputsToOutput = ["RedRed":"Red",
                           "RedBlue":"Purple",
@@ -81,16 +91,29 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
         isHardMode(hardMode)
         resetVars()
+        turnOffSelections()
+        //resetVars sets all varables to their default, disables fire button
+        
+        // select new color
         targetColor = targetArray.randomElement()!
         colorDisplay.text = targetColor
-        turnOffSelections()
-        //resetVars sets all varables to their default, disables fire button, and generates a new target
         
         normalHS = UserDefaults.standard.integer(forKey: "normHS")
         hardHS = UserDefaults.standard.integer(forKey: "hardHS")
+        
+        muteMusic = UserDefaults.standard.bool(forKey: "muteMusic")
+        muteSFX = UserDefaults.standard.bool(forKey: "muteSFX")
+        
+        // Configure AVAudioSession
+        do {
+            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
+            try AVAudioSession.sharedInstance().setActive(true)
+        } catch {
+            print(error)
+        }
         
     }
 
@@ -99,6 +122,8 @@ class ViewController: UIViewController {
         
         settingVC.isHardMode = hardMode
         settingVC.streak = userScore
+        settingVC.muteSFX = muteSFX
+        settingVC.muteMusic = muteMusic
     }
     
     /*override func viewDidAppear(_ animated: Bool) {
@@ -213,12 +238,36 @@ class ViewController: UIViewController {
         self.cannonBallImage.isHidden = true                                              // hide cannonball on screen
         self.cannonball_shot.image = UIImage(named: "Cannonball-Full-\(self.userColor)")  // set cannonball image
         
-        UIView.animate(withDuration: 1.0, delay: 0, options: .curveEaseOut, animations: {
+        if !self.muteSFX {
+            // play launch
+            let sfx1 = URL(fileURLWithPath: Bundle.main.path(forResource: self.audioDir+"launch", ofType:"mp3")!)// play sfx
+            do {
+                self.audioPlayer1 = try AVAudioPlayer(contentsOf: sfx1)
+                self.audioPlayer1.play()
+           } catch {
+                print("Sound file not found")
+           }
+        }
+        
+        
+        UIView.animate(withDuration: 0.75, delay: 0, options: .curveEaseOut, animations: {
             // rising
+            if !self.muteSFX {
+                // play slide whistle sound
+                let sfx2 = URL(fileURLWithPath: Bundle.main.path(forResource: self.audioDir+"whistle", ofType:"mp3")!)// play sfx
+                do {
+                    self.audioPlayer2 = try AVAudioPlayer(contentsOf: sfx2)
+                    self.audioPlayer2.play()
+               } catch {
+                    print("Sound file not found")
+               }
+            }
+            
             let toSize = newSize + 15.0
             self.cannonball_shot.frame = CGRect(x: newCenter.x-(toSize/2),
                                            y: newCenter.y - 60.0,
                                            width: toSize, height: toSize)
+            
         }) { (success: Bool) in
             
             // falling and hit ship
@@ -272,6 +321,7 @@ class ViewController: UIViewController {
     
     func sinkShip(_ shipCenter:CGPoint, _ labelCenter:CGPoint, _ oldCenter:CGPoint, _ newCenter:CGPoint,
                         _ oldSize : CGFloat, _ newSize: CGFloat) {
+        
         // reset cannonball shot
         self.cannonball_shot.frame = CGRect(x: oldCenter.x-(oldSize/2),
                                        y: oldCenter.y-(oldSize/2),
@@ -281,6 +331,17 @@ class ViewController: UIViewController {
         
         // sink ship
         UIView.animate(withDuration: 1.0, delay: 0, options: .curveEaseIn, animations: {
+            if !self.muteSFX {
+                // set sfx to slide whistle
+                let sfx = URL(fileURLWithPath: Bundle.main.path(forResource: self.audioDir+"explosion", ofType:"mp3")!)// play sfx
+                do {
+                    self.audioPlayer2 = try AVAudioPlayer(contentsOf: sfx)
+                    self.audioPlayer2.play()
+               } catch {
+                    print("Sound file not found")
+               }
+            }
+            
             self.ship.frame = CGRect(x: shipCenter.x - 123,
                                      y: shipCenter.y + 80,
                                      width: 246, height: 160)
@@ -297,10 +358,22 @@ class ViewController: UIViewController {
     
     func bounceOffShip(_ shipCenter:CGPoint, _ labelCenter:CGPoint, _ oldCenter:CGPoint, _ newCenter:CGPoint,
                        _ oldSize : CGFloat, _ newSize: CGFloat) {
+        
         // bounce off Ship
         let growth = 5.0
         
         UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseIn, animations: {
+            if !self.muteSFX {
+                // play thud
+                let sfx = URL(fileURLWithPath: Bundle.main.path(forResource: self.audioDir+"thud", ofType:"mp3")!)// play sfx
+                do {
+                    self.audioPlayer1 = try AVAudioPlayer(contentsOf: sfx)
+                    self.audioPlayer1.play()
+               } catch {
+                    print("Sound file not found")
+               }
+            }
+            
             self.cannonball_shot.frame = CGRect(x: newCenter.x + 5.0,
                                            y: newCenter.y,
                                            width: newSize+growth,
@@ -319,9 +392,21 @@ class ViewController: UIViewController {
                     self.cannonball_shot.frame = CGRect(x: newCenter.x + 5.0,
                                                    y: newCenter.y+30.0,
                                                    width: newSize+growth, height: newSize+growth)
+                    
                 }) { (success: Bool) in
                     // cannonball splashes
                     self.cannonball_shot.image = UIImage(named: "Cannonball-Splash")
+                    
+                    if !self.muteSFX {
+                        // play splash
+                        let sfx = URL(fileURLWithPath: Bundle.main.path(forResource: self.audioDir+"splash", ofType:"mp3")!)// play sfx
+                        do {
+                            self.audioPlayer1 = try AVAudioPlayer(contentsOf: sfx)
+                            self.audioPlayer1.play()
+                       } catch {
+                            print("Sound file not found")
+                       }
+                    }
                     
                     // don't sail away until 3 misses
                     if self.misses == 3 {
@@ -335,7 +420,18 @@ class ViewController: UIViewController {
                             self.colorDisplay.frame = CGRect(x: -140,
                                                              y: labelCenter.y-40,
                                                              width: 119, height: 80)
+                            self.cannonball_shot.alpha = 0
                             
+                            if !self.muteSFX {
+                                // play launch
+                                let sfx1 = URL(fileURLWithPath: Bundle.main.path(forResource: self.audioDir+"sail", ofType:"mp3")!)// play sfx
+                                do {
+                                    self.audioPlayer1 = try AVAudioPlayer(contentsOf: sfx1)
+                                    self.audioPlayer1.play()
+                               } catch {
+                                    print("Sound file not found")
+                               }
+                            }
                         }) { (success: Bool) in
                             // reset cannonball location and size
                             self.cannonball_shot.frame = CGRect(x: oldCenter.x-(oldSize/2),
@@ -345,17 +441,20 @@ class ViewController: UIViewController {
                             self.bringInNewShip(shipCenter, labelCenter, oldCenter, newCenter, oldSize, newSize)
                         }
                     } else {
-                        // sink cannonball slowly
-                        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut, animations: {
-                            self.cannonball_shot.frame = CGRect(x: newCenter.x + 5.0,
+                        // sink cannonball
+                        UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseOut, animations: {
+                            self.cannonball_shot.alpha = 0
+                            
+                            /*self.cannonball_shot.frame = CGRect(x: newCenter.x + 5.0,
                                                            y: newCenter.y+31.0,
-                                                           width: newSize+growth, height: newSize+growth)
+                                                           width: newSize+growth, height: newSize+growth) */
                         }) { (success: Bool) in
                         
                             // reset cannonball location and size
                             self.cannonball_shot.frame = CGRect(x: oldCenter.x-(oldSize/2),
                                                            y: oldCenter.y-(oldSize/2),
                                                            width: oldSize, height: oldSize)
+                            self.cannonball_shot.alpha = 1
                             self.cannonball_shot.image = UIImage(named: "Cannonball-Empty")
                             self.afterFire()
                         }
@@ -367,8 +466,13 @@ class ViewController: UIViewController {
     
     func bringInNewShip(_ shipCenter:CGPoint, _ labelCenter:CGPoint, _ oldCenter:CGPoint, _ newCenter:CGPoint,
                   _ oldSize : CGFloat, _ newSize: CGFloat) {
-        // set new color
-        targetColor = targetArray.randomElement()!
+        
+        // set new color (ensure not the same as before)
+        var newTargetColor = targetArray.randomElement()!
+        while newTargetColor == targetColor {
+            newTargetColor = targetArray.randomElement()!
+        }
+        targetColor = newTargetColor
         colorDisplay.text = targetColor
         
         // set ship and color label to right side
@@ -383,6 +487,17 @@ class ViewController: UIViewController {
         
         
         UIView.animate(withDuration: 1.5, delay: 1.0, options: .curveLinear, animations: {
+            if !self.muteSFX {
+                // play sail
+                let sfx1 = URL(fileURLWithPath: Bundle.main.path(forResource: self.audioDir+"sail_late", ofType:"mp3")!)// play sfx
+                do {
+                    self.audioPlayer1 = try AVAudioPlayer(contentsOf: sfx1)
+                    self.audioPlayer1.play()
+               } catch {
+                    print("Sound file not found")
+               }
+            }
+            
             // bring in ship
             self.colorDisplay.frame = CGRect(x: labelCenter.x-60.5,
                                         y: labelCenter.y-40,
@@ -390,8 +505,9 @@ class ViewController: UIViewController {
             self.ship.frame = CGRect(x: shipCenter.x-80,
                                      y: shipCenter.y-80,
                                      width: 160, height: 160)
-        }) { (success: Bool) in
             
+            
+        }) { (success: Bool) in
             self.afterFire()
         }
     }  // end of bringInNewShip

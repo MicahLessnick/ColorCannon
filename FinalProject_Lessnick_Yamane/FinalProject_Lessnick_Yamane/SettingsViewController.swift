@@ -16,21 +16,26 @@ class SettingsViewController: UIViewController {
     @IBOutlet weak var normHSDisplay: UILabel!
     @IBOutlet weak var hardHSDisplay: UILabel!
     
+    @IBOutlet weak var sfxSwitch: UISwitch!
+    @IBOutlet weak var musicSwitch: UISwitch!
+    
     var normHS: Int = 0
     var hardHS: Int = 0
+    
+    var muteMusic: Bool = false
+    var muteSFX: Bool = false
     
     var streak: Int = 0
     //current user streak, variable used for storage only
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         initialMode()
         normHS = UserDefaults.standard.integer(forKey: "normHS")
         hardHS = UserDefaults.standard.integer(forKey: "hardHS")
         normHSDisplay.text = String(normHS)
         hardHSDisplay.text = String(hardHS)
-        // Do any additional setup after loading the view.
     }
     
     @IBAction func hardModeToggle(_ sender: UISwitch) {
@@ -43,11 +48,20 @@ class SettingsViewController: UIViewController {
             modeLabel.text = "Normal Mode"
         }
     }
+    @IBAction func sfxToggle(_ sender: UISwitch) {
+        muteSFX.toggle()
+    }
+    
+    @IBAction func musicToggle(_ sender: UISwitch) {
+        muteMusic.toggle()
+    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let mainVC:ViewController = segue.destination as! ViewController
         mainVC.hardMode = isHardMode
         mainVC.userScore = streak
+        mainVC.muteSFX = muteSFX
+        mainVC.muteMusic = muteMusic
     }
     
     @IBAction func resetScoresSelected(_ sender: UIButton) {
@@ -68,6 +82,18 @@ class SettingsViewController: UIViewController {
         else{
             hardSwitch.isOn = false
             modeLabel.text = "Normal Mode"
+        }
+        
+        if muteMusic {
+            musicSwitch.isOn = true
+        } else {
+            musicSwitch.isOn = false
+        }
+        
+        if muteSFX {
+            sfxSwitch.isOn = true
+        } else {
+            sfxSwitch.isOn = false
         }
     }
 }

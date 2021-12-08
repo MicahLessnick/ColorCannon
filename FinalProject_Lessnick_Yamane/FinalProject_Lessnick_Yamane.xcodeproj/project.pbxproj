@@ -14,6 +14,7 @@
 		4D1ADB032741DB0F00EA8856 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4D1ADB022741DB0F00EA8856 /* Assets.xcassets */; };
 		4D1ADB062741DB0F00EA8856 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4D1ADB042741DB0F00EA8856 /* LaunchScreen.storyboard */; };
 		4DF7DC012755686B001385CC /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF7DC002755686B001385CC /* SettingsViewController.swift */; };
+		ADAC342F276077A80051A4D9 /* sounds in Resources */ = {isa = PBXBuildFile; fileRef = ADAC342E276077A80051A4D9 /* sounds */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		4D1ADB052741DB0F00EA8856 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4D1ADB072741DB0F00EA8856 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4DF7DC002755686B001385CC /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		ADAC342E276077A80051A4D9 /* sounds */ = {isa = PBXFileReference; lastKnownFileType = folder; path = sounds; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +67,7 @@
 				4DF7DC002755686B001385CC /* SettingsViewController.swift */,
 				4D1ADB022741DB0F00EA8856 /* Assets.xcassets */,
 				4D1ADB042741DB0F00EA8856 /* LaunchScreen.storyboard */,
+				ADAC342E276077A80051A4D9 /* sounds */,
 				4D1ADB072741DB0F00EA8856 /* Info.plist */,
 			);
 			path = FinalProject_Lessnick_Yamane;
@@ -130,6 +133,7 @@
 			files = (
 				4D1ADB062741DB0F00EA8856 /* LaunchScreen.storyboard in Resources */,
 				4D1ADB032741DB0F00EA8856 /* Assets.xcassets in Resources */,
+				ADAC342F276077A80051A4D9 /* sounds in Resources */,
 				4D1ADB012741DB0E00EA8856 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
