@@ -21,6 +21,9 @@ class ViewController: UIViewController {
     @IBOutlet weak var ship: UIImageView!
     @IBOutlet weak var cannonball_shot: UIImageView!
     @IBOutlet weak var clear: UIButton!
+    @IBOutlet weak var x_1: UIImageView!
+    @IBOutlet weak var x_2: UIImageView!
+    @IBOutlet weak var x_3: UIImageView!
     
     var firstColorPicked: Bool = false
     var hardMode: Bool = false
@@ -106,11 +109,22 @@ class ViewController: UIViewController {
             // select new color
             targetColor = targetArray.randomElement()!
             modeChanged.toggle()
+            misses = 0
         }
         colorDisplay.text = targetColor
         
         normalHS = UserDefaults.standard.integer(forKey: "normHS")
         hardHS = UserDefaults.standard.integer(forKey: "hardHS")
+        
+        if self.misses == 1 {
+            self.x_1.isHidden = false
+        }
+        if self.misses == 2 {
+            self.x_2.isHidden = false
+        }
+        if self.misses == 3 {
+            self.x_3.isHidden = false
+        }
         
         // Configure AVAudioSession
         do {
@@ -150,6 +164,7 @@ class ViewController: UIViewController {
         settingVC.audioPlayer2 = audioPlayer2
         settingVC.modeChanged = modeChanged
         settingVC.targetColor = targetColor
+        settingVC.misses = misses
     }
     
     
@@ -301,6 +316,9 @@ class ViewController: UIViewController {
                     // correct combo
                     self.userScore += 1
                     self.misses = 0
+                    self.x_1.isHidden = true
+                    self.x_2.isHidden = true
+                    self.x_3.isHidden = true
                     
                     if !self.hardMode{
                         if self.userScore > self.normalHS{
@@ -322,6 +340,13 @@ class ViewController: UIViewController {
                     // wrong combo
                     self.userScore = 0
                     self.misses += 1
+                    if self.misses == 1 {
+                        self.x_1.isHidden = false
+                    } else if self.misses == 2 {
+                        self.x_2.isHidden = false
+                    } else if self.misses == 3 {
+                        self.x_3.isHidden = false
+                    }
                     
                     // bounce off the ship and don't move until third miss
                     self.bounceOffShip(shipCenter, labelCenter, oldCenter, newCenter, oldSize, newSize)
@@ -447,9 +472,12 @@ class ViewController: UIViewController {
                                 do {
                                     self.audioPlayer1 = try AVAudioPlayer(contentsOf: sfx1)
                                     self.audioPlayer1.play()
-                               } catch {
+                                } catch {
                                     print("Sound file not found")
-                               }
+                                }
+                                self.x_1.isHidden = true
+                                self.x_2.isHidden = true
+                                self.x_3.isHidden = true
                             }
                         }) { (success: Bool) in
                             // reset cannonball location and size

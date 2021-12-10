@@ -36,12 +36,14 @@ class SettingsViewController: UIViewController {
     var audioPlayer2 = AVAudioPlayer()       // another AudioPlayer to prevent overlapping
     var screamPlayer = AVAudioPlayer()       // AudioPlayer for jump scare
     var surprisedPressed = false
-    var targetColor = ""
     
+    var targetColor = ""
+    var misses = 0
     var modeChanged:Bool = false
     
     var streak: Int = 0
     //current user streak, variable used for storage only
+    
     var randomArray = [2.0, 3.0, 4.0, 5.0]
     @IBOutlet weak var supImg: UIImageView!
     var timer1: Timer!
@@ -105,6 +107,7 @@ class SettingsViewController: UIViewController {
         mainVC.audioPlayer2 = audioPlayer2
         mainVC.modeChanged = modeChanged
         mainVC.targetColor = targetColor
+        mainVC.misses = misses
     }
     
     @IBAction func resetScoresSelected(_ sender: UIButton) {
