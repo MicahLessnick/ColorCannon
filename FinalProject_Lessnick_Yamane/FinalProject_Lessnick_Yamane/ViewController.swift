@@ -116,10 +116,10 @@ class ViewController: UIViewController {
         normalHS = UserDefaults.standard.integer(forKey: "normHS")
         hardHS = UserDefaults.standard.integer(forKey: "hardHS")
         
-        if self.misses == 1 {
+        if self.misses >= 1 {
             self.x_1.isHidden = false
         }
-        if self.misses == 2 {
+        if self.misses >= 2 {
             self.x_2.isHidden = false
         }
         if self.misses == 3 {
